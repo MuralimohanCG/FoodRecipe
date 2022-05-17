@@ -20,13 +20,18 @@ public class FoodService {
 	@Autowired
 	public FoodRepository respository;
 	
-	public String saveItems(Items items) {
-		
+	public String dateFormat() {
 		//Date and Time
 		LocalDateTime dateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String date = dateTime.format(formatter);
-		System.out.println("Date::"+date);
+        
+        return date;
+	}
+	
+	public String saveItems(Items items) {
+		
+		String date = dateFormat();
 		items.setCreateDate(date);
 		
 		respository.save(items);
@@ -48,11 +53,7 @@ public class FoodService {
 	
 	public String updateItems(int Id, Items items) {
 		
-		//Date and Time
-		LocalDateTime dateTime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String date = dateTime.format(formatter);
-		System.out.println("Date::"+date);
+		String date = dateFormat();
 		items.setCreateDate(date);
 		
 		Items itemsData = respository.findById(Id);
