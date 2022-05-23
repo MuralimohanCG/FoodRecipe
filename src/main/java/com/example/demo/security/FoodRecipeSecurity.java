@@ -11,6 +11,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class FoodRecipeSecurity extends WebSecurityConfigurerAdapter {
 
+	
+
+	 
+	/**
+	 * 
+	Swagger configured 
+	Input parameter http
+	
+	 */
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
         .antMatchers("/swagger-ui/**", "/FoodRecipeDemo/**").permitAll()
@@ -19,9 +28,11 @@ public class FoodRecipeSecurity extends WebSecurityConfigurerAdapter {
         .httpBasic();
 	}
 	
+	/**
+	 Input as Authentication details
+	 */
 	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception { auth.inMemoryAuthentication()
                 .withUser("user")
                 .password(passwordEncoder().encode("user"))
                 .authorities("ADMIN");
