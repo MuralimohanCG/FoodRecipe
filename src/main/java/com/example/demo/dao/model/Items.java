@@ -31,7 +31,7 @@ public class Items {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	
 	@Length(min = 3, message = "The field must be at least 3 characters")
 	@Length(max = 50, message = "The field must be less than 50 characters")
@@ -53,7 +53,7 @@ public class Items {
 	 @Size(min = 1, max = 1500, message = "Recipe Cooking instructions must be of length 1 to 1500")
 	private String cookInstrctions;
 	
-	public Items(Long id, String name, String category, String createDate, int quantity, List<Ingredients> ingredients,String cookInstrctions) {
+	public Items(int id, String name, String category, String createDate, int quantity, List<Ingredients> ingredients,String cookInstrctions) {
 		// TODO Auto-generated constructor stub
 		this.id=id;
 		this.name=name;
@@ -66,10 +66,10 @@ public class Items {
 	public Items() {
 		// TODO Auto-generated constructor stub
 	}
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -84,11 +84,12 @@ public class Items {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String getcreateDate() {
+	
+	public String getCreateDate() {
 		return createDate;
 	}
 	public void setCreateDate(String createDate) {
-		createDate = createDate;
+		this.createDate = createDate;
 	}
 	public int getQuantity() {
 		return quantity;

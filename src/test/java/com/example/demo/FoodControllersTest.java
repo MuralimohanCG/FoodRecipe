@@ -76,7 +76,7 @@ class FoodControllersTest {
 		list1.add(ingred);
 		list1.add(ingred1);
 		list1.add(ingred2);
-		items_1 = new Items(1L,"Paneer Biryani","Veg","13-05-2022 10:12",3,list1,"add Vegitables");
+		items_1 = new Items(1,"Paneer Biryani","Veg","13-05-2022 10:12",3,list1,"add Vegitables");
 		Mockito.when(foodService.saveItems(ArgumentMatchers.any())).thenReturn(items_1);
         String json = mapper.writeValueAsString(items_1);
         mockMvc.perform(post("/saveItems")
@@ -92,7 +92,7 @@ class FoodControllersTest {
 		list1.add(ingred);
 		list1.add(ingred1);
 		list1.add(ingred2);
-		items_2 = new Items(2L,"Veg Biryani","Veg","13-05-2022 11:12",5,list1,"oil, ghee,masala ");
+		items_2 = new Items(2,"Veg Biryani","Veg","13-05-2022 11:12",5,list1,"oil, ghee,masala ");
 		List<Items> itemsList = new ArrayList<Items>();
 		itemsList.add(items_1);
 		itemsList.add(items_2);
@@ -107,15 +107,15 @@ class FoodControllersTest {
 	@Test
 	void testGetByRecipe() throws Exception {
 		List<Items> itemsList = new ArrayList<Items>();
-		Optional<Items> recipeItem = Optional.of(items_2);
+		//Optional<Items> recipeItem = Optional.of(items_1);
 		itemsList.add(items_1);
 		itemsList.add(items_2);
 		
-		recipeItem.ifPresent(itemsList::add);
+	//	recipeItem.ifPresent(itemsList::add);
 		
-		Mockito.when(foodService.getByRecipe(ArgumentMatchers.anyLong())).thenReturn(recipeItem);
+		Mockito.when(foodService.getByRecipe(ArgumentMatchers.anyInt())).thenReturn(items_1);
 		
-		mockMvc.perform(get("/getByRecipe/2"))
+		mockMvc.perform(get("/getByRecipe/1"))
 		.andExpect(status().isOk());
 		
 	}
@@ -125,9 +125,9 @@ class FoodControllersTest {
 		list1.add(ingred);
 		list1.add(ingred1);
 		list1.add(ingred2);
-	   items_4 = new Items(2L,"Mutton Biryani","Non-Veg","13-05-2022 11:12",7,list1,"oil, ghee,masala ");
+	   items_4 = new Items(2,"Mutton Biryani","Non-Veg","13-05-2022 11:12",7,list1,"oil, ghee,masala ");
 		
-		Mockito.when(foodService.updateItems(ArgumentMatchers.anyLong(),ArgumentMatchers.any())).thenReturn(items_4);
+		Mockito.when(foodService.updateItems(ArgumentMatchers.anyInt(),ArgumentMatchers.any())).thenReturn(items_4);
         String json = mapper.writeValueAsString(items_4);
         mockMvc.perform(put("/updateItems/2")
         		.contentType(MediaType.APPLICATION_JSON)
@@ -138,11 +138,12 @@ class FoodControllersTest {
 
 	@Test
 	void testDeleteItem() throws Exception {
+		Mockito.when(foodService.deleteItem(ArgumentMatchers.anyInt())).thenReturn(1);
         MvcResult requestResult = mockMvc.perform(delete("/deleteItem/1"))
                 .andExpect(status().isOk())
                 .andExpect(status().isOk()).andReturn();
         String result = requestResult.getResponse().getContentAsString();
-        assertEquals(result, status().isOk());
+        assertEquals(result, "Recipe Item record deleted1");
 	}
 
 }

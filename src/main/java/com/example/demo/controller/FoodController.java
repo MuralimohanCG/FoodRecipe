@@ -64,10 +64,11 @@ public class FoodController {
 	 */
 
 	@GetMapping("/getByRecipe/{Id}")
-	public ResponseEntity<Optional<Items>> getByRecipe(@PathVariable Long Id) throws FoodItemNotFoundException{
+	public ResponseEntity<Items> getByRecipe(@PathVariable int Id) throws FoodItemNotFoundException{
 		logger.info("In getByRecipe::" + Id);
-		Optional<Items> getRecipe = foodServices.getByRecipe(Id);
-		return new ResponseEntity<Optional<Items>>(getRecipe, HttpStatus.OK);
+		Items getRecipe = foodServices.getByRecipe(Id);
+		
+		return new ResponseEntity<Items>(getRecipe, HttpStatus.OK);
 	}
 	
 	/*
@@ -75,7 +76,7 @@ public class FoodController {
 	 return update item list
 	 */
 	@PutMapping("/updateItems/{Id}")
-	public ResponseEntity<Items> updateItems(@PathVariable Long Id, @RequestBody Items items) 
+	public ResponseEntity<Items> updateItems(@PathVariable int Id, @RequestBody Items items) 
 			throws FoodItemNotFoundException{
 		logger.info("In updateItems::");
 		foodServices.updateItems(Id,items);
@@ -88,10 +89,11 @@ public class FoodController {
 	  @param id to delete the recipe item
 	 */
 	@DeleteMapping("/deleteItem/{Id}")
-	public void deleteItem(@PathVariable int Id) {
+	public ResponseEntity<String> deleteItem(@PathVariable int Id) {
 		logger.info("In deleteItem::");
 		foodServices.deleteItem(Id);
 		logger.info("Recipe item record delete ");
+		return new ResponseEntity<String>("Recipe Item record deleted"+String.valueOf(Id), HttpStatus.OK);
 	}
 
 }

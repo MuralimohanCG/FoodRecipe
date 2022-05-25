@@ -10,7 +10,7 @@ import com.example.demo.dao.model.Items;
 
 public interface FoodRepository extends JpaRepository<Items, Integer> {
 
-	Optional<Items> findById(Long id);
+
 
 
 

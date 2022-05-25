@@ -71,13 +71,12 @@ public class FoodRecipeDaoImp implements FoodService{
      * @param id of recipe to select from records
      * @return the recipe detail with given id
      */
-	public Optional<Items> getByRecipe(Long Id){
-		 Optional<Items> recipeItem = respository.findById(Id);
-		 logger.info("Recipe found ", recipeItem.isPresent());
-		 
-		 recipeItem.orElseThrow(
-	                () -> new FoodItemNotFoundException("No Recipe record exist for given id " + Id));
-		return recipeItem;
+	public Items getByRecipe(int Id) throws FoodItemNotFoundException{
+		
+		Items getRecipe = respository.findById(Id).orElseThrow(()
+				->new FoodItemNotFoundException("No Recipe record exist for given id "+Id));
+		
+		return getRecipe;
 		 
 	}
 	
@@ -88,15 +87,17 @@ public class FoodRecipeDaoImp implements FoodService{
      * @param id to delete the recipe from records
      * @return void
      */
-	public void deleteItem(int Id) throws FoodItemNotFoundException {
+	public int deleteItem(int Id) throws FoodItemNotFoundException {
 		 logger.info("Recipe item to delete" + Id);
-			 
+		 
 		 respository.findById(Id).orElseThrow(()
 				 ->new FoodItemNotFoundException("Recipe not Found by the Id "+Id));
 		 
 		 respository.deleteById(Id);
 		
 		 logger.info("Recipe item was deleted" + Id);
+		 
+		 return Id;
 	}
 	
 	/**
@@ -105,7 +106,7 @@ public class FoodRecipeDaoImp implements FoodService{
      * @param Items contain api request data
      * @return contain api response data
      */
-	public Items updateItems(Long Id, Items items) throws FoodItemNotFoundException {
+	public Items updateItems(int Id, Items items) throws FoodItemNotFoundException {
 		 Optional<Items> recipeItem = respository.findById(Id);
 		 Items itemsData = respository.findById(Id).orElseThrow(()
 				 ->new FoodItemNotFoundException("Recipe not Found by the Id "+Id));

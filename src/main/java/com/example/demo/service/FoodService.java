@@ -16,10 +16,10 @@ public interface FoodService {
 
 	public List<Items> getAllItems();
 	
-	public Optional<Items> getByRecipe(Long Id) throws FoodItemNotFoundException;
+	public Items getByRecipe(int Id) throws FoodItemNotFoundException;
 	
-	public void deleteItem(int Id) throws FoodItemNotFoundException;
+	public int deleteItem(int Id) throws FoodItemNotFoundException;
 	
-	public Items updateItems(Long Id, Items items) throws FoodItemNotFoundException;
+	public Items updateItems(int Id, Items items) throws FoodItemNotFoundException;
 	
 }
