@@ -2,25 +2,24 @@ package com.example.demo.service;
 
 
 import java.util.List;
-
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import com.example.demo.dao.model.Items;
+import com.example.demo.exception.FoodItemNotFoundException;
 
 
 
 
 public interface FoodService {	
 	
-	public String saveItems(Items items);
+	public Items saveItems(Items items) throws FoodItemNotFoundException;
 
 	public List<Items> getAllItems();
 	
-	public List<Items> getByCatgeroy(String Category);
+	public Optional<Items> getByRecipe(Long Id) throws FoodItemNotFoundException;
 	
-	public String deleteItem(int Id);
+	public void deleteItem(int Id) throws FoodItemNotFoundException;
 	
-	public String updateItems(int Id, Items items);
+	public Items updateItems(Long Id, Items items) throws FoodItemNotFoundException;
 	
 }

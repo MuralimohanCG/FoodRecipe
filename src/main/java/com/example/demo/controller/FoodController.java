@@ -35,20 +35,16 @@ public class FoodController {
 	public FoodService foodServices;
 	
 	/*
-	 Input as Items
-	 saveItems 
-	 Output data saved in H2
+	 @ Required as Items
+	 @ Return save Item
 	 */
 	
 	@PostMapping("/saveItems")
-	public String saveItems(@RequestBody Items items) {
+	public ResponseEntity<Items> saveItems(@RequestBody Items items) throws FoodItemNotFoundException  {
 		logger.info("In SaveItems::");
-		
-		if(items == null) {
-			throw new FoodItemNotFoundException("Invalid input values");
-		}
-		foodServices.saveItems(items);
-	   return "Saved values...";
+		items =foodServices.saveItems(items);
+		logger.info("Recipe Record Created");
+		return new ResponseEntity<Items>(items, HttpStatus.OK);
 	}
 	/*
 	 return response entity as Items
@@ -58,48 +54,44 @@ public class FoodController {
 	public ResponseEntity<List<Items>> getAllItems(){
 		logger.info("In getAllItems::");
 		List<Items> items= foodServices.getAllItems();
+		logger.info("Recipe Items list  Size ",items.size());
 		return new ResponseEntity<List<Items>>(items, HttpStatus.OK);
 	}
 	
 	/*
-	 Input category Id
+	 @Path Long id
 	 Return List of Items
 	 */
 
-	@GetMapping("/getByCatgeroy/{category}")
-	public List<Items> getByCatgeroy(@PathVariable String category){
-		logger.info("In getByCatgeroy::");
-
-		if(category == null || category.toLowerCase().equals("null"))  {
-			throw new FoodItemNotFoundException("Invalid Category Code");
-		}
-		return foodServices.getByCatgeroy(category);
+	@GetMapping("/getByRecipe/{Id}")
+	public ResponseEntity<Optional<Items>> getByRecipe(@PathVariable Long Id) throws FoodItemNotFoundException{
+		logger.info("In getByRecipe::" + Id);
+		Optional<Items> getRecipe = foodServices.getByRecipe(Id);
+		return new ResponseEntity<Optional<Items>>(getRecipe, HttpStatus.OK);
 	}
 	
 	/*
-	 Input int id, Items
-	 update data in H2
+	 @Path  id, Items
+	 return update item list
 	 */
 	@PutMapping("/updateItems/{Id}")
-	public String updateItems(@PathVariable int Id, @RequestBody Items items){
+	public ResponseEntity<Items> updateItems(@PathVariable Long Id, @RequestBody Items items) 
+			throws FoodItemNotFoundException{
 		logger.info("In updateItems::");
-		if(Id <= 0) {
-			throw new FoodItemNotFoundException("Invalid Items Object");
-		}
-		return foodServices.updateItems(Id,items);
+		foodServices.updateItems(Id,items);
+		logger.info("Recipe item record Updated ");
+		
+		return new ResponseEntity<Items>(items, HttpStatus.OK); 
 	}
 	
 	/*
-	 Input int id 
-	 return delete id from Items
+	  @param id to delete the recipe item
 	 */
 	@DeleteMapping("/deleteItem/{Id}")
-	public String deleteItem(@PathVariable int Id) {
+	public void deleteItem(@PathVariable int Id) {
 		logger.info("In deleteItem::");
-		if(Id <= 0) {
-			throw new FoodItemNotFoundException("Invalid Item Id");
-		}
-		return foodServices.deleteItem(Id);
+		foodServices.deleteItem(Id);
+		logger.info("Recipe item record delete ");
 	}
 
 }
